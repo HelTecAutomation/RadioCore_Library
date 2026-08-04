@@ -30,19 +30,27 @@ aligned with the source. This does not imply successful compilation or hardware
 validation.
 _Avoid_: verified board, supported hardware
 
-**CH01 gas sensor**:
-The analog-output gas sensor measured by RadioCore examples.
-_Avoid_: gas channel, CH01 input
+**Analog gas sensor**:
+A CH01, VO01, or CO01 device that represents gas concentration as an analog output
+voltage.
+_Avoid_: gas channel, gas input
 
-**Restored CH01 voltage**:
-The CH01 output voltage before the external resistor divider, recovered from
-the voltage measured at the ADC pin.
+**Restored sensor voltage**:
+The analog gas sensor output voltage before the external resistor divider,
+recovered from the voltage measured at the ADC pin.
 _Avoid_: raw ADC voltage, GPIO2 voltage
 
-**CH01 zero-point voltage**:
-The restored CH01 voltage that represents a concentration of zero ppm.
+**Zero-point voltage**:
+The restored sensor voltage that represents a concentration of zero ppm for an
+individual analog gas sensor.
 _Avoid_: startup voltage, first reading
 
 **Concentration trend**:
-The direction of change between two consecutive CH01 concentration checkpoints.
+The direction of change between two consecutive analog gas sensor concentration
+checkpoints.
 _Avoid_: alarm state, concentration status
+
+**Warm-up cycle**:
+The one-time CO01 startup sequence that drives its control line high and then
+low before concentration measurements begin.
+_Avoid_: conditioning cycle, startup delay
