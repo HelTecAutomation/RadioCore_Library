@@ -5,9 +5,9 @@ RadioCore Library is the shared Arduino library for RadioCore series hardware.
 ## Current status
 
 Version 0.0.1 provides compile-time hardware facts for RadioCore examples. The
-BH1750 example has source-level target configuration for Heltec RC52, RC32, and
-RCC6. This does not claim that the example has been compiled or tested on
-hardware.
+BH1750 and NV3001B examples have source-level target configuration for Heltec
+RC52, RC32, and RCC6. This does not claim that the examples have been compiled
+or tested on hardware.
 
 ## Installation
 
@@ -30,6 +30,32 @@ The library declares these Arduino dependencies:
 
 Dependency-aware Arduino tools can install them automatically. RadioCore
 Library does not copy, wrap, or re-export either sensor driver.
+
+The `NV3001B_Display` example additionally requires the NV3001B-enabled
+[Quency-D/Arduino_GFX](https://github.com/Quency-D/Arduino_GFX) fork. Install
+that fork manually in the Arduino sketchbook `libraries` directory. It is not
+listed in `library.properties` because NV3001B support has not been merged into
+the Arduino Library Manager version of `GFX Library for Arduino`.
+
+## NV3001B display example
+
+Open `File > Examples > RadioCore Library > NV3001B_Display` in the Arduino
+IDE. One sketch selects the board-specific display transport and pins at
+compile time, initializes the NV3001B in landscape rotation 3, then displays
+the board name, panel model, color blocks, and a counter updated once per
+second.
+
+The source-level target mappings are:
+
+| Board | Transport | SCK | MOSI/SDA | CS | DC | RST | EN | BL |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Heltec RC32 | ESP32 hardware SPI, 8 MHz | 17 | 38 | 39 | 16 | 4 | 6, active low | 5, active high |
+| Heltec RCC6 | Software SPI | 4 | 15 | 18 | 3 | 0 | 2, active low | 1, active high |
+| Heltec RC52 | `SPI1`, 8 MHz | P0.30 (30) | P1.02 (34) | P1.04 (36) | P0.28 (28) | P0.10 (10) | P1.13 (45), active low | P0.09 (9), active high |
+
+The example keeps the backlight off during panel initialization and enables it
+only after the initial frame has been drawn. It does not read or validate the
+NV3001B controller ID.
 
 ## BH1750 read example
 
@@ -75,7 +101,8 @@ Add a hardware-facts-only header under `src/boards/`, then select it from
 example. A board-controlled Sensor power rail can additionally declare its
 control pin, active level, and warmup time. A board with a different I2C API,
 dedicated bus object, or power sequence may require a new architecture path in
-the example.
+the example. NV3001B-capable boards additionally declare display pins, active
+levels, SPI frequency, and one of the supported display transports.
 
 Unknown boards can still include `RadioCore.h`; they receive
 `RADIOCORE_HAS_SENSOR_I2C=0`. The BH1750 example performs its own capability

@@ -24,6 +24,15 @@ Compile-time hardware facts for one RadioCore board, without peripheral
 initialization or example behavior.
 _Avoid_: board driver, initialization layer
 
+**NV3001B display**:
+The 128-by-220 color TFT panel configured by RadioCore display examples.
+_Avoid_: OLED, generic screen
+
+**Display transport**:
+The board-selected SPI mechanism used to send commands and pixels to the
+NV3001B display.
+_Avoid_: default SPI, display bus
+
 **Source-level target board**:
 A board whose local Arduino variant and example preprocessing path have been
 aligned with the source. This does not imply successful compilation or hardware
