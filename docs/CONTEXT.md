@@ -29,3 +29,20 @@ A board whose local Arduino variant and example preprocessing path have been
 aligned with the source. This does not imply successful compilation or hardware
 validation.
 _Avoid_: verified board, supported hardware
+
+**CH01 gas sensor**:
+The analog-output gas sensor measured by RadioCore examples.
+_Avoid_: gas channel, CH01 input
+
+**Restored CH01 voltage**:
+The CH01 output voltage before the external resistor divider, recovered from
+the voltage measured at the ADC pin.
+_Avoid_: raw ADC voltage, GPIO2 voltage
+
+**CH01 zero-point voltage**:
+The restored CH01 voltage that represents a concentration of zero ppm.
+_Avoid_: startup voltage, first reading
+
+**Concentration trend**:
+The direction of change between two consecutive CH01 concentration checkpoints.
+_Avoid_: alarm state, concentration status
