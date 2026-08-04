@@ -1,6 +1,6 @@
 #ifndef RADIOCORE_H
 #define RADIOCORE_H
 
-// Public include entry point for the RadioCore Library.
+#include "RadioCoreBoardConfig.h"
 
 #endif // RADIOCORE_H
