@@ -6,9 +6,8 @@ RadioCore Library is the shared Arduino library for RadioCore series hardware.
 
 Version 0.0.1 provides compile-time hardware facts for RadioCore examples. The
 BH1750, Soil_Moisture_Read, NV3001B, WS2812, Motor_Control, Relay_Control, and
-Servo_Control examples have source-level target configuration for Heltec RC52,
-RC32, and RCC6. This does not claim that the examples have been compiled or
-tested on hardware.
+Servo_Control examples have target configuration for Heltec RC52, RC32, and
+RCC6.
 
 ## Installation
 
@@ -52,7 +51,7 @@ compile time, initializes the NV3001B in landscape rotation 3, then displays
 the board name, panel model, color blocks, and a counter updated once per
 second.
 
-The source-level target mappings are:
+The target mappings are:
 
 | Board | Transport | SCK | MOSI/SDA | CS | DC | RST | EN | BL |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -82,7 +81,7 @@ Connect an external BH1750 module as follows:
 | SCL | Sensor I2C SCL |
 | ADDR | GND/open for `0x23`, or 3.3V for `0x5C` |
 
-The source-level target bus and power mappings are:
+The target bus and power mappings are:
 
 | Board | SDA | SCL | Sensor power control |
 | --- | ---: | ---: | --- |
@@ -96,8 +95,6 @@ only an I2C configuration placeholder until an authoritative sensor-power
 control is available.
 
 These mappings are defined by the library's board configuration headers.
-Compilation and hardware behavior have not been verified as part of this
-change.
 
 ## Soil moisture read example
 
@@ -129,8 +126,6 @@ on these boards. `Soil_Moisture_Read` is a standalone example and does not
 initialize or operate the display.
 
 These mappings are defined by the library's board configuration headers.
-Compilation and hardware behavior have not been verified as part of this
-change.
 
 ## WS2812 example
 
@@ -141,7 +136,7 @@ a six-second breathing period for each color. The global brightness is limited
 to 128, or 50% of the library's full scale.
 
 Change `LED_COUNT` near the top of `WS2812.ino` when using a strip with a
-different number of pixels. The source-level DIN mappings are:
+different number of pixels. The target DIN mappings are:
 
 | Board | WS2812 DIN |
 | --- | --- |
@@ -160,8 +155,6 @@ P0.09 is also the NV3001B backlight and soil-moisture power control. The
 example does not initialize those peripherals.
 
 These mappings are defined by the library's board configuration headers.
-Compilation and hardware behavior have not been verified as part of this
-change.
 
 ## Motor control example
 
@@ -191,8 +184,6 @@ respectively, so the display cannot be operated at the same time with these
 motor mappings.
 
 These mappings are defined by the library's board configuration headers.
-Compilation and hardware behavior have not been verified as part of this
-change.
 
 ## Relay control example
 
@@ -220,8 +211,6 @@ RCC6 GPIO1 overlaps Sensor I2C SCL and the configured NV3001B backlight, so
 those functions cannot be operated at the same time with this relay mapping.
 
 These mappings are defined by the library's board configuration headers.
-Compilation and hardware behavior have not been verified as part of this
-change.
 
 ## Servo control example
 
@@ -253,8 +242,6 @@ and PWM2 overlap the Motor_Control inputs. Do not initialize those overlapping
 peripherals while running this example.
 
 These mappings are defined by the library's board configuration headers.
-Compilation and hardware behavior have not been verified as part of this
-change.
 
 ## Adding a board configuration
 
