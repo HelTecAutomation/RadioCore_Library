@@ -1,3 +1,12 @@
+/*
+ * Controls both channels of an RS-SV01 driver. Connect PWM1/PWM2/EN to RC32
+ * GPIO41/GPIO42/GPIO40, RCC6 GPIO3/GPIO4/GPIO18, or RC52
+ * P1.01/P0.20/P1.06. Use a suitable servo supply and common logic ground; do
+ * not power servos from GPIO.
+ *
+ * ESP32 boards use ESP32Servo; RC52 uses the board package's Servo library.
+ * PWM pins overlap Motor_Control on all boards and NV3001B signals on RCC6.
+ */
 #include <Arduino.h>
 #include <RadioCore.h>
 

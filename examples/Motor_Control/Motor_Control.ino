@@ -1,3 +1,11 @@
+/*
+ * Connect an external motor driver's IN1/IN2 to RC32 GPIO41/GPIO42, RCC6
+ * GPIO3/GPIO4, or RC52 P1.01/P0.20. Use a suitable motor supply and connect
+ * driver logic ground to board ground; never connect a motor directly to GPIO.
+ *
+ * Outputs stay low for 10 s, run IN1 for 3 s, stop for 17 s, then use the IN2
+ * direction for later runs. RCC6 GPIO3/GPIO4 overlap NV3001B DC/SCK.
+ */
 #include <Arduino.h>
 #include <RadioCore.h>
 
