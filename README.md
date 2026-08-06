@@ -5,10 +5,10 @@ RadioCore Library is the shared Arduino library for RadioCore series hardware.
 ## Current status
 
 Version 0.0.1 provides compile-time hardware facts for RadioCore examples. The
-BH1750, Soil_Moisture_Read, NV3001B, WS2812, and Motor_Control examples have
-source-level target configuration for Heltec RC52, RC32, and RCC6. The
-Relay_Control example has the same source-level target coverage. This does not
-claim that the examples have been compiled or tested on hardware.
+BH1750, Soil_Moisture_Read, NV3001B, WS2812, Motor_Control, Relay_Control, and
+Servo_Control examples have source-level target configuration for Heltec RC52,
+RC32, and RCC6. This does not claim that the examples have been compiled or
+tested on hardware.
 
 ## Installation
 
@@ -29,9 +29,14 @@ The library declares these Arduino dependencies:
 - `BH1750` version 1.3.0 or newer from
   [claws/BH1750](https://github.com/claws/BH1750)
 - `Adafruit NeoPixel`
+- `ESP32Servo` for ESP32-based RadioCore boards
 
 Dependency-aware Arduino tools can install them automatically. RadioCore
 Library does not copy, wrap, or re-export these libraries.
+
+The Heltec nRF52 board package supplies the Arduino official `Servo` library
+used by `Servo_Control` on RC52; no separate Servo library installation is
+required.
 
 The `NV3001B_Display` example additionally requires the NV3001B-enabled
 [Quency-D/Arduino_GFX](https://github.com/Quency-D/Arduino_GFX) fork. Install
@@ -218,6 +223,39 @@ These mappings are defined by the library's board configuration headers.
 Compilation and hardware behavior have not been verified as part of this
 change.
 
+## Servo control example
+
+Open `File > Examples > RadioCore Library > Servo_Control` in the Arduino IDE.
+The example controls both channels of an external RS-SV01 dual-servo driver.
+It holds the driver enable signal inactive while attaching both servo outputs
+and setting them to 90 degrees, then enables the driver and waits two seconds.
+Both servos first move to 125 degrees and then move together between 125 and 60
+degrees every two seconds. The current angle is printed at 115200 baud.
+
+ESP32-based boards use the `ESP32Servo` library. RC52 uses the Arduino official
+`Servo` library supplied by the Heltec nRF52 board package.
+
+Connect the RS-SV01 control interface as follows:
+
+| Board | PWM1 | PWM2 | EN |
+| --- | ---: | ---: | ---: |
+| Heltec RC32 | GPIO41 | GPIO42 | GPIO40, active high |
+| Heltec RCC6 | GPIO3 | GPIO4 | GPIO18, active high |
+| Heltec RC52 | P1.01 (33) | P0.20 (20) | P1.06 (38), active high |
+
+Connect the RS-SV01 logic ground to the RadioCore board ground and use a power
+supply suitable for the connected servos. Do not power a servo from a GPIO pin.
+
+This is a standalone example. RC32 PWM1 and PWM2 overlap the Motor_Control
+inputs. RCC6 PWM1 and PWM2 overlap the Motor_Control inputs as well as the
+NV3001B DC and SCK signals; RCC6 EN overlaps the NV3001B CS signal. RC52 PWM1
+and PWM2 overlap the Motor_Control inputs. Do not initialize those overlapping
+peripherals while running this example.
+
+These mappings are defined by the library's board configuration headers.
+Compilation and hardware behavior have not been verified as part of this
+change.
+
 ## Adding a board configuration
 
 Add a hardware-facts-only header under `src/boards/`, then select it from
@@ -236,13 +274,16 @@ Motor-control-capable boards declare the two digital inputs used by the shared
 Motor_Control example.
 Relay-control-capable boards declare the digital output and active level used
 by the shared Relay_Control example.
+Servo-control-capable boards declare the two servo PWM pins, the driver enable
+pin, and its active level for the shared Servo_Control example.
 
 Unknown boards can still include `RadioCore.h`; they receive
 `RADIOCORE_HAS_SENSOR_I2C=0`, `RADIOCORE_HAS_SOIL_MOISTURE_ADC=0`, and
 `RADIOCORE_HAS_WS2812=0`, `RADIOCORE_HAS_MOTOR_CONTROL=0`, and
-`RADIOCORE_HAS_RELAY_CONTROL=0`. The BH1750, Soil_Moisture_Read, WS2812,
-Motor_Control, and Relay_Control examples perform their own capability checks
-and report unsupported configurations during preprocessing.
+`RADIOCORE_HAS_RELAY_CONTROL=0`, and `RADIOCORE_HAS_SERVO_CONTROL=0`. The
+BH1750, Soil_Moisture_Read, WS2812, Motor_Control, Relay_Control, and
+Servo_Control examples perform their own capability checks and report
+unsupported configurations during preprocessing.
 
 ## License
 

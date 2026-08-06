@@ -91,3 +91,8 @@ _Avoid_: PWM output, motor power pin
 The board-designated digital signal connected to the logic input of an
 external relay module or driver.
 _Avoid_: relay coil output, load power output
+
+**Servo control interface**:
+The board-designated pair of servo PWM signals and enable signal used to
+connect an external dual-servo driver such as the RS-SV01.
+_Avoid_: servo motor, generic PWM module
