@@ -5,9 +5,9 @@ RadioCore Library is the shared Arduino library for RadioCore series hardware.
 ## Current status
 
 Version 0.0.1 provides compile-time hardware facts for RadioCore examples. The
-BH1750, Soil_Moisture_Read, NV3001B, and WS2812 examples have source-level
-target configuration for Heltec RC52, RC32, and RCC6. This does not claim that
-the examples have been compiled or tested on hardware.
+BH1750, Soil_Moisture_Read, NV3001B, WS2812, and Motor_Control examples have
+source-level target configuration for Heltec RC52, RC32, and RCC6. This does
+not claim that the examples have been compiled or tested on hardware.
 
 ## Installation
 
@@ -157,6 +157,37 @@ These mappings are defined by the library's board configuration headers.
 Compilation and hardware behavior have not been verified as part of this
 change.
 
+## Motor control example
+
+Open `File > Examples > RadioCore Library > Motor_Control` in the Arduino IDE.
+The example controls two digital inputs on an external motor driver with a
+non-blocking state machine. At startup both inputs remain low for 10 seconds.
+The first run drives IN1 high and IN2 low for 3 seconds, followed by 17 seconds
+with both inputs low. Every later run drives IN1 low and IN2 high for 3 seconds,
+then returns to the same 17-second stopped interval. The later runs remain in
+the IN2 direction; they do not alternate direction.
+
+Connect the external motor driver inputs as follows:
+
+| Board | Motor driver IN1 | Motor driver IN2 |
+| --- | ---: | ---: |
+| Heltec RC32 | GPIO41 | GPIO42 |
+| Heltec RCC6 | GPIO3 | GPIO4 |
+| Heltec RC52 | P1.01 (33) | P0.20 (20) |
+
+Connect the motor driver logic ground to the RadioCore board ground. Do not
+connect a motor directly to either GPIO; use a suitable motor driver and motor
+power supply.
+
+This is a standalone example and does not initialize other peripherals. On
+RCC6, GPIO3 and GPIO4 overlap the configured NV3001B display DC and SCK signals,
+respectively, so the display cannot be operated at the same time with these
+motor mappings.
+
+These mappings are defined by the library's board configuration headers.
+Compilation and hardware behavior have not been verified as part of this
+change.
+
 ## Adding a board configuration
 
 Add a hardware-facts-only header under `src/boards/`, then select it from
@@ -171,12 +202,14 @@ available, its power-control pin, active level, and warmup time.
 NV3001B-capable boards additionally declare display pins, active levels, SPI
 frequency, and one of the supported display transports.
 WS2812-capable boards declare the strip data pin used by the shared example.
+Motor-control-capable boards declare the two digital inputs used by the shared
+Motor_Control example.
 
 Unknown boards can still include `RadioCore.h`; they receive
 `RADIOCORE_HAS_SENSOR_I2C=0`, `RADIOCORE_HAS_SOIL_MOISTURE_ADC=0`, and
-`RADIOCORE_HAS_WS2812=0`. The BH1750, Soil_Moisture_Read, and WS2812 examples
-perform their own capability checks and report unsupported configurations
-during preprocessing.
+`RADIOCORE_HAS_WS2812=0`, and `RADIOCORE_HAS_MOTOR_CONTROL=0`. The BH1750,
+Soil_Moisture_Read, WS2812, and Motor_Control examples perform their own
+capability checks and report unsupported configurations during preprocessing.
 
 ## License
 

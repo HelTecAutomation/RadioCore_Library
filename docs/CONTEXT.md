@@ -81,3 +81,8 @@ _Avoid_: wet value, maximum moisture
 An external chain of individually addressable RGB pixels controlled by a
 single data signal.
 _Avoid_: generic RGB LED, onboard LED
+
+**Motor control input**:
+One of a pair of digital direction signals connected to an external motor
+driver; together the pair selects a stopped state or a drive direction.
+_Avoid_: PWM output, motor power pin
