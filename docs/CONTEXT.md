@@ -63,3 +63,16 @@ _Avoid_: alarm state, concentration status
 The one-time CO01 startup sequence that drives its control line high and then
 low before concentration measurements begin.
 _Avoid_: conditioning cycle, startup delay
+
+**Soil moisture sensor**:
+An analog probe whose calibrated output represents relative moisture in a
+specific growing medium.
+_Avoid_: soil humidity sensor, soil sensor
+
+**Dry calibration point**:
+The soil moisture sensor reading selected to represent 0% moisture.
+_Avoid_: dry value, minimum moisture
+
+**Wet calibration point**:
+The soil moisture sensor reading selected to represent 100% moisture.
+_Avoid_: wet value, maximum moisture

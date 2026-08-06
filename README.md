@@ -5,9 +5,9 @@ RadioCore Library is the shared Arduino library for RadioCore series hardware.
 ## Current status
 
 Version 0.0.1 provides compile-time hardware facts for RadioCore examples. The
-BH1750 and NV3001B examples have source-level target configuration for Heltec
-RC52, RC32, and RCC6. This does not claim that the examples have been compiled
-or tested on hardware.
+BH1750, Soil_Moisture_Read, and NV3001B examples have source-level target
+configuration for Heltec RC52, RC32, and RCC6. This does not claim that the
+examples have been compiled or tested on hardware.
 
 ## Installation
 
@@ -92,6 +92,39 @@ These mappings are defined by the library's board configuration headers.
 Compilation and hardware behavior have not been verified as part of this
 change.
 
+## Soil moisture read example
+
+Open `File > Examples > RadioCore Library > Soil_Moisture_Read` in the Arduino
+IDE. The example enables the configured sensor power control, waits 100 ms,
+then samples the configured 12-bit ADC input 16 times per reading. Once per
+second it prints the averaged raw ADC value and a moisture percentage.
+
+Connect an analog soil moisture sensor as follows:
+
+| Board | Sensor analog output | Sensor EN |
+| --- | --- | --- |
+| Heltec RC32 | GPIO6 | GPIO5, active high |
+| Heltec RCC6 | GPIO0 | GPIO2, active high |
+| Heltec RC52 | P1.13 (45), not ADC-capable | P0.09 (9), active high |
+
+> **RC52 limitation:** P1.13 cannot be used as an ADC input. The current RC52
+> pin mapping therefore cannot produce soil moisture readings; select an
+> ADC-capable RC52 pin before using this example on that board.
+
+The example maps a raw value of 2560 to 0% and 3980 to 100%, then constrains the
+result to that range. These values are defaults from the reference sensor
+sketch, not universal calibration data. Measure and replace both calibration
+points for the actual sensor and growing medium before relying on the reported
+percentage.
+
+The configured soil moisture pins overlap signals used by the NV3001B display
+on these boards. `Soil_Moisture_Read` is a standalone example and does not
+initialize or operate the display.
+
+These mappings are defined by the library's board configuration headers.
+Compilation and hardware behavior have not been verified as part of this
+change.
+
 ## Adding a board configuration
 
 Add a hardware-facts-only header under `src/boards/`, then select it from
@@ -101,12 +134,15 @@ Add a hardware-facts-only header under `src/boards/`, then select it from
 example. A board-controlled Sensor power rail can additionally declare its
 control pin, active level, and warmup time. A board with a different I2C API,
 dedicated bus object, or power sequence may require a new architecture path in
-the example. NV3001B-capable boards additionally declare display pins, active
-levels, SPI frequency, and one of the supported display transports.
+the example. A soil-moisture-capable board declares its ADC input and, when
+available, its power-control pin, active level, and warmup time.
+NV3001B-capable boards additionally declare display pins, active levels, SPI
+frequency, and one of the supported display transports.
 
 Unknown boards can still include `RadioCore.h`; they receive
-`RADIOCORE_HAS_SENSOR_I2C=0`. The BH1750 example performs its own capability
-check and reports an unsupported configuration during preprocessing.
+`RADIOCORE_HAS_SENSOR_I2C=0` and `RADIOCORE_HAS_SOIL_MOISTURE_ADC=0`. The
+BH1750 and Soil_Moisture_Read examples perform their own capability checks and
+report unsupported configurations during preprocessing.
 
 ## License
 
