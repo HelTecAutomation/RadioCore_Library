@@ -76,3 +76,8 @@ _Avoid_: dry value, minimum moisture
 **Wet calibration point**:
 The soil moisture sensor reading selected to represent 100% moisture.
 _Avoid_: wet value, maximum moisture
+
+**WS2812 LED strip**:
+An external chain of individually addressable RGB pixels controlled by a
+single data signal.
+_Avoid_: generic RGB LED, onboard LED

@@ -5,9 +5,9 @@ RadioCore Library is the shared Arduino library for RadioCore series hardware.
 ## Current status
 
 Version 0.0.1 provides compile-time hardware facts for RadioCore examples. The
-BH1750, Soil_Moisture_Read, and NV3001B examples have source-level target
-configuration for Heltec RC52, RC32, and RCC6. This does not claim that the
-examples have been compiled or tested on hardware.
+BH1750, Soil_Moisture_Read, NV3001B, and WS2812 examples have source-level
+target configuration for Heltec RC52, RC32, and RCC6. This does not claim that
+the examples have been compiled or tested on hardware.
 
 ## Installation
 
@@ -27,9 +27,10 @@ The library declares these Arduino dependencies:
 - `Adafruit BME280 Library`
 - `BH1750` version 1.3.0 or newer from
   [claws/BH1750](https://github.com/claws/BH1750)
+- `Adafruit NeoPixel`
 
 Dependency-aware Arduino tools can install them automatically. RadioCore
-Library does not copy, wrap, or re-export either sensor driver.
+Library does not copy, wrap, or re-export these libraries.
 
 The `NV3001B_Display` example additionally requires the NV3001B-enabled
 [Quency-D/Arduino_GFX](https://github.com/Quency-D/Arduino_GFX) fork. Install
@@ -125,6 +126,37 @@ These mappings are defined by the library's board configuration headers.
 Compilation and hardware behavior have not been verified as part of this
 change.
 
+## WS2812 example
+
+Open `File > Examples > RadioCore Library > WS2812` in the Arduino IDE. The
+example drives a 30-pixel WS2812 strip using `NEO_GRB + NEO_KHZ800`. It starts
+automatically at power-up and cycles pale yellow, pale blue, and white through
+a six-second breathing period for each color. The global brightness is limited
+to 128, or 50% of the library's full scale.
+
+Change `LED_COUNT` near the top of `WS2812.ino` when using a strip with a
+different number of pixels. The source-level DIN mappings are:
+
+| Board | WS2812 DIN |
+| --- | --- |
+| Heltec RC32 | GPIO5 |
+| Heltec RCC6 | GPIO2 |
+| Heltec RC52 | P0.09 (9) |
+
+Power the strip from a supply sized for its pixel count and brightness, and
+connect the strip ground to the RadioCore board ground. Do not power a
+30-pixel strip directly from a GPIO pin.
+
+This is a standalone example. Its DIN pins overlap other configured functions:
+RC32 GPIO5 is also the NV3001B backlight and soil-moisture power control, RCC6
+GPIO2 is also the NV3001B enable and soil-moisture power control, and RC52
+P0.09 is also the NV3001B backlight and soil-moisture power control. The
+example does not initialize those peripherals.
+
+These mappings are defined by the library's board configuration headers.
+Compilation and hardware behavior have not been verified as part of this
+change.
+
 ## Adding a board configuration
 
 Add a hardware-facts-only header under `src/boards/`, then select it from
@@ -138,11 +170,13 @@ the example. A soil-moisture-capable board declares its ADC input and, when
 available, its power-control pin, active level, and warmup time.
 NV3001B-capable boards additionally declare display pins, active levels, SPI
 frequency, and one of the supported display transports.
+WS2812-capable boards declare the strip data pin used by the shared example.
 
 Unknown boards can still include `RadioCore.h`; they receive
-`RADIOCORE_HAS_SENSOR_I2C=0` and `RADIOCORE_HAS_SOIL_MOISTURE_ADC=0`. The
-BH1750 and Soil_Moisture_Read examples perform their own capability checks and
-report unsupported configurations during preprocessing.
+`RADIOCORE_HAS_SENSOR_I2C=0`, `RADIOCORE_HAS_SOIL_MOISTURE_ADC=0`, and
+`RADIOCORE_HAS_WS2812=0`. The BH1750, Soil_Moisture_Read, and WS2812 examples
+perform their own capability checks and report unsupported configurations
+during preprocessing.
 
 ## License
 
