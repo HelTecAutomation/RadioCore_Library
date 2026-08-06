@@ -6,8 +6,9 @@ RadioCore Library is the shared Arduino library for RadioCore series hardware.
 
 Version 0.0.1 provides compile-time hardware facts for RadioCore examples. The
 BH1750, Soil_Moisture_Read, NV3001B, WS2812, and Motor_Control examples have
-source-level target configuration for Heltec RC52, RC32, and RCC6. This does
-not claim that the examples have been compiled or tested on hardware.
+source-level target configuration for Heltec RC52, RC32, and RCC6. The
+Relay_Control example has the same source-level target coverage. This does not
+claim that the examples have been compiled or tested on hardware.
 
 ## Installation
 
@@ -188,6 +189,35 @@ These mappings are defined by the library's board configuration headers.
 Compilation and hardware behavior have not been verified as part of this
 change.
 
+## Relay control example
+
+Open `File > Examples > RadioCore Library > Relay_Control` in the Arduino IDE.
+The example starts with the relay released for three seconds, then alternates
+between activated and released every three seconds. It uses a blocking delay
+and prints `Relay activated` or `Relay released` at 115200 baud after each
+state change. Override `RELAY_TOGGLE_INTERVAL_MS` to use a different interval.
+
+Connect the logic input of an active-high relay module as follows:
+
+| Board | Relay module input | Active level |
+| --- | ---: | --- |
+| Heltec RC32 | GPIO2 | High |
+| Heltec RCC6 | GPIO1 | High |
+| Heltec RC52 | P1.15 (47) | High |
+
+Connect the relay module logic ground to the RadioCore board ground. Do not
+drive a relay coil directly from a GPIO; use a suitable relay module or driver
+and an appropriate supply for the relay and its load.
+
+This is a standalone example and does not initialize other peripherals. RC32
+GPIO2 overlaps the configured analog input used by the gas sensor examples.
+RCC6 GPIO1 overlaps Sensor I2C SCL and the configured NV3001B backlight, so
+those functions cannot be operated at the same time with this relay mapping.
+
+These mappings are defined by the library's board configuration headers.
+Compilation and hardware behavior have not been verified as part of this
+change.
+
 ## Adding a board configuration
 
 Add a hardware-facts-only header under `src/boards/`, then select it from
@@ -204,12 +234,15 @@ frequency, and one of the supported display transports.
 WS2812-capable boards declare the strip data pin used by the shared example.
 Motor-control-capable boards declare the two digital inputs used by the shared
 Motor_Control example.
+Relay-control-capable boards declare the digital output and active level used
+by the shared Relay_Control example.
 
 Unknown boards can still include `RadioCore.h`; they receive
 `RADIOCORE_HAS_SENSOR_I2C=0`, `RADIOCORE_HAS_SOIL_MOISTURE_ADC=0`, and
-`RADIOCORE_HAS_WS2812=0`, and `RADIOCORE_HAS_MOTOR_CONTROL=0`. The BH1750,
-Soil_Moisture_Read, WS2812, and Motor_Control examples perform their own
-capability checks and report unsupported configurations during preprocessing.
+`RADIOCORE_HAS_WS2812=0`, `RADIOCORE_HAS_MOTOR_CONTROL=0`, and
+`RADIOCORE_HAS_RELAY_CONTROL=0`. The BH1750, Soil_Moisture_Read, WS2812,
+Motor_Control, and Relay_Control examples perform their own capability checks
+and report unsupported configurations during preprocessing.
 
 ## License
 

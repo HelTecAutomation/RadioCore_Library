@@ -86,3 +86,8 @@ _Avoid_: generic RGB LED, onboard LED
 One of a pair of digital direction signals connected to an external motor
 driver; together the pair selects a stopped state or a drive direction.
 _Avoid_: PWM output, motor power pin
+
+**Relay control output**:
+The board-designated digital signal connected to the logic input of an
+external relay module or driver.
+_Avoid_: relay coil output, load power output
