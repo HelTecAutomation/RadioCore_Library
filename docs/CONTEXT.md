@@ -33,12 +33,6 @@ The board-selected SPI mechanism used to send commands and pixels to the
 NV3001B display.
 _Avoid_: default SPI, display bus
 
-**Source-level target board**:
-A board whose local Arduino variant and example preprocessing path have been
-aligned with the source. This does not imply successful compilation or hardware
-validation.
-_Avoid_: verified board, supported hardware
-
 **Analog gas sensor**:
 A CH01, VO01, or CO01 device that represents gas concentration as an analog output
 voltage.

@@ -1,3 +1,11 @@
+/*
+ * Drives 30 WS2812 pixels (GRB, 800 kHz) through RC32 GPIO5, RCC6 GPIO2, or
+ * RC52 P0.09. Change LED_COUNT for a different strip length.
+ *
+ * Use a supply sized for the strip and connect its ground to board ground; do
+ * not power the strip from a GPIO. The data pin overlaps NV3001B backlight or
+ * enable and soil-moisture power signals, so run this as a standalone example.
+ */
 #define LED_COUNT 30
 
 #include <Arduino.h>
