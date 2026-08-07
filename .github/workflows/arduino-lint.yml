@@ -33,6 +33,6 @@ jobs:
         uses: arduino/arduino-lint-action@v3
         with:
           compliance: strict
-          library-manager: submit
+          library-manager: update
           project-type: library
           recursive: false
