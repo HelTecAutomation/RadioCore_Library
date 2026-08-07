@@ -6,7 +6,7 @@ This example runs the required one-time CO01 startup sequence, samples the analo
 
 ## Requirements
 
-- RadioCore RC32 or RC52 board configuration
+- RadioCore RC32 board configuration
 - A CO01 sensor connected through the expected 2:1 divider
 - A common ground between the sensor supply and the RadioCore board
 
