@@ -6,7 +6,7 @@ This example samples an analog VO01 gas sensor, restores the sensor voltage befo
 
 ## Requirements
 
-- RadioCore RC32 or RC52 board configuration
+- RadioCore RC32 board configuration
 - A VO01 sensor connected through the expected 2:1 divider
 - A common ground between the sensor supply and the RadioCore board
 
