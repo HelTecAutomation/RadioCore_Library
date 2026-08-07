@@ -1,0 +1,38 @@
+name: Arduino Library Lint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check tag and library version
+        if: github.ref_type == 'tag'
+        shell: bash
+        run: |
+          library_version="$(sed -n 's/^version=//p' library.properties)"
+          tag_version="${GITHUB_REF_NAME#v}"
+          if [[ -z "${library_version}" || "${tag_version}" != "${library_version}" ]]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match library version ${library_version}." >&2
+            exit 1
+          fi
+
+      - name: Run Arduino Lint
+        uses: arduino/arduino-lint-action@v3
+        with:
+          compliance: strict
+          library-manager: submit
+          project-type: library
+          recursive: false

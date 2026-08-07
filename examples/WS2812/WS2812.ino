@@ -9,7 +9,7 @@
 #define LED_COUNT 30
 
 #include <Arduino.h>
-#include <RadioCore.h>
+#include <RadioCore_Kit.h>
 
 #if !RADIOCORE_HAS_WS2812
 #error "WS2812 requires a RadioCore WS2812 board configuration."

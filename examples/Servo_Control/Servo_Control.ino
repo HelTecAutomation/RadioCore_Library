@@ -8,7 +8,7 @@
  * PWM pins overlap Motor_Control on all boards and NV3001B signals on RCC6.
  */
 #include <Arduino.h>
-#include <RadioCore.h>
+#include <RadioCore_Kit.h>
 
 #if !RADIOCORE_HAS_SERVO_CONTROL
 #error "Servo_Control requires a RadioCore servo control board configuration."

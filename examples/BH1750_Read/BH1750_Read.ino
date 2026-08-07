@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <RadioCore.h>
+#include <RadioCore_Kit.h>
 
 #if !RADIOCORE_HAS_SENSOR_I2C
 #error "BH1750_Read requires a RadioCore SENSOR_I2C board configuration."

@@ -7,7 +7,7 @@
  * direction for later runs. RCC6 GPIO3/GPIO4 overlap NV3001B DC/SCK.
  */
 #include <Arduino.h>
-#include <RadioCore.h>
+#include <RadioCore_Kit.h>
 
 #if !RADIOCORE_HAS_MOTOR_CONTROL
 #error "Motor_Control requires a RadioCore motor control board configuration."
