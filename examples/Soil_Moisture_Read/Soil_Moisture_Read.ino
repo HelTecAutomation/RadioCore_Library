@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <RadioCore.h>
+#include <RadioCore_Kit.h>
 
 #if !RADIOCORE_HAS_SOIL_MOISTURE_ADC
 #error "Soil_Moisture_Read requires a RadioCore soil moisture ADC board configuration."

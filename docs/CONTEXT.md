@@ -5,9 +5,9 @@ series hardware.
 
 ## Language
 
-**RadioCore Library**:
+**RadioCore_Kit**:
 The shared Arduino package for the RadioCore hardware family.
-_Avoid_: sensor driver bundle, full board support package
+_Avoid_: RadioCore Library, sensor driver bundle, full board support package
 
 **Sensor I2C**:
 The board-designated I2C bus used by RadioCore examples for external sensors.

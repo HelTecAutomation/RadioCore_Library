@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <RadioCore.h>
+#include <RadioCore_Kit.h>
 
 #if !RADIOCORE_HAS_VO01_ADC
 #error "VO01_Read requires a RadioCore VO01 ADC board configuration."

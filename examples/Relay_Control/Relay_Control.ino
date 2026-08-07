@@ -11,7 +11,7 @@
 #endif
 
 #include <Arduino.h>
-#include <RadioCore.h>
+#include <RadioCore_Kit.h>
 
 #if !RADIOCORE_HAS_RELAY_CONTROL
 #error "Relay_Control requires a RadioCore relay control board configuration."

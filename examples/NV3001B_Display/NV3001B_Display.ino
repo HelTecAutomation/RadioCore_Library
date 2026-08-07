@@ -5,7 +5,7 @@
  * https://github.com/Quency-D/Arduino_GFX
  */
 #include <Arduino.h>
-#include <RadioCore.h>
+#include <RadioCore_Kit.h>
 
 #if !RADIOCORE_HAS_NV3001B_DISPLAY
 #error "NV3001B_Display requires a RadioCore NV3001B board configuration."

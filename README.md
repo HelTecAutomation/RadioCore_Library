@@ -1,18 +1,26 @@
-# RadioCore Library
+# RadioCore_Kit
 
-RadioCore Library is the shared Arduino library for RadioCore series hardware.
+RadioCore_Kit is the shared Arduino library for RadioCore series hardware.
 It provides compile-time board configuration used by portable, board-adaptive
 examples.
 
 ## Installation
 
-Clone or copy this repository into the `libraries` directory of your Arduino
-sketchbook, then restart the Arduino IDE if it is already running.
+Open Library Manager in the Arduino IDE, search for `RadioCore_Kit`, and select
+**Install**. Arduino CLI users can install the library with:
+
+```sh
+arduino-cli lib install RadioCore_Kit
+```
+
+For development versions that have not been released, clone or copy this
+repository into the `libraries` directory of your Arduino sketchbook, then
+restart the Arduino IDE if it is already running.
 
 Sketches can include the library with:
 
 ```cpp
-#include <RadioCore.h>
+#include <RadioCore_Kit.h>
 ```
 
 ## Dependencies
@@ -26,7 +34,7 @@ The library declares these Arduino dependencies:
 - `ESP32Servo` for ESP32-based RadioCore boards
 
 Dependency-aware Arduino tools can install these libraries automatically.
-RadioCore Library does not copy, wrap, or re-export them.
+RadioCore_Kit does not copy, wrap, or re-export them.
 
 The Heltec nRF52 board package supplies the Arduino official `Servo` library
 used by `Servo_Control` on RC52; no separate Servo library installation is
@@ -40,7 +48,7 @@ the Arduino Library Manager version of `GFX Library for Arduino`.
 
 ## Examples
 
-Open the examples from `File > Examples > RadioCore Library` in the Arduino
+Open the examples from `File > Examples > RadioCore_Kit` in the Arduino
 IDE. Board configuration macros select the supported pins and peripherals at
 compile time.
 
@@ -84,10 +92,10 @@ nRF52 peripheral APIs used by RC32, RCC6, and RC52. A board with a different
 I2C, ADC, SPI, or servo API may require a new architecture path in the relevant
 example.
 
-Unknown boards can still include `RadioCore.h`. All example capability macros
+Unknown boards can still include `RadioCore_Kit.h`. All example capability macros
 default to disabled, and an unsupported example reports its missing capability
 during preprocessing.
 
 ## License
 
-RadioCore Library is released under the MIT License. See [LICENSE](LICENSE).
+RadioCore_Kit is released under the MIT License. See [LICENSE](LICENSE).
