@@ -63,6 +63,16 @@ _Avoid_: bare panel, passive adapter, TFT connector
 A monochrome update that refreshes the complete e-paper image in one operation.
 _Avoid_: partial refresh, fast refresh, grayscale refresh
 
+**Partial-window e-paper refresh**:
+A monochrome update that uses the panel's partial-refresh waveform to update
+an explicitly selected region while preserving the surrounding displayed image.
+_Avoid_: full-screen refresh, automatic change detection, grayscale refresh
+
+**E-paper reference image**:
+Controller-side image data that provides a baseline for subsequent partial
+refreshes, distinct from the MCU drawing buffer and the physically visible image.
+_Avoid_: MCU framebuffer, visible image
+
 **Analog gas sensor**:
 A CH01, VO01, or CO01 device that represents gas concentration as an analog output
 voltage.

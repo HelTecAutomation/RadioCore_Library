@@ -72,7 +72,7 @@ compile time.
 | `VO01_Read` | Estimate VO01 gas concentration and trend | [Guide](examples/VO01_Read/README.md) |
 | `Soil_Moisture_Read` | Read and calibrate an analog soil moisture sensor | [Guide](examples/Soil_Moisture_Read/README.md) |
 | `NV3001B_Display` | Exercise the 128-by-220 color TFT | [Guide](examples/NV3001B_Display/README.md) |
-| `DEPG1020BNS770F1_Display` | Refresh the 960-by-640 monochrome e-paper panel on RC32 or RC52 | [Guide](examples/DEPG1020BNS770F1_Display/README.md) |
+| `DEPG1020BNS770F1_Display` | Full baseline and partial-window updates on the 960-by-640 panel (RC32/RC52) | [Guide](examples/DEPG1020BNS770F1_Display/README.md) |
 | `E0213A367_Display` | Refresh the 122-by-250 drawable E0213A367 e-paper panel on RC32 or RC52 | [Guide](examples/E0213A367_Display/README.md) |
 | `Rotary_Encoder` | Report rotary direction, signed count, and user-button presses on RC32 and RC52 | [Sketch](examples/Rotary_Encoder/Rotary_Encoder.ino) |
 | `WS2812` | Run a three-color breathing animation | [Sketch](examples/WS2812/WS2812.ino) |

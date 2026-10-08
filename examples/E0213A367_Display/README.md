@@ -14,22 +14,23 @@ driver board on Heltec RC32 and RC52. It renders a changing test page using a
 ## Wiring
 
 RD02E P1 mates pin-for-pin with RC32 P3 or RC52 P1. Confirm the connector pin 1
-orientation against the PCB silkscreen before applying power.
+orientation against the PCB silkscreen before applying power. The table uses
+the updated RD02E host signal assignment.
 
 | Signal | RD02E P1 | RC32 P3 | RC52 P1 |
 | --- | ---: | ---: | ---: |
-| RST/RES | 1 | GPIO4 | P0.10 / D10 |
-| BUSY | 2 | GPIO6 | P1.13 / D45 |
-| DC | 3 | GPIO5 | P0.09 / D9 |
-| EN/VEINK_Ctrl | 4 | GPIO21 | P1.11 / D43 |
-| CS | 5 | GPIO2 | P1.15 / D47 |
-| SCK/SCL | 11 | GPIO48 | P0.05 / D5 |
-| MOSI/SDA | 13 | GPIO47 | P0.15 / D15 |
+| RST/RES | 10 | GPIO16 | P0.28 / D28 |
+| BUSY | 24 | GPIO38 | P1.02 / D34 |
+| DC | 8 | GPIO17 | P0.30 / D30 |
+| EN/VEINK_Ctrl | 26 | GPIO39 | P1.04 / D36 |
+| CS | 2 | GPIO6 | P1.13 / D45 |
+| SCK/SCL | 1 | GPIO4 | P0.10 / D10 |
+| MOSI/SDA | 3 | GPIO5 | P0.09 / D9 |
 
 `VEINK_Ctrl` is active low, BUSY is active high, and RST and CS are active low.
 BS1 is tied to ground on RD02E, selecting 4-wire, 8-bit SPI. The interface has
-no independent MISO signal. RC52 uses `SPI1`, explicitly remapped to SCK D5 and
-MOSI D15; CS remains the separate D47 GPIO.
+no independent MISO signal. RC52 uses `SPI1`, explicitly remapped to SCK D10 and
+MOSI D9; CS remains the separate D45 GPIO.
 
 ## Runtime behavior
 
@@ -45,8 +46,8 @@ sequence on the next loop.
 
 ## Shared-pin restrictions
 
-Run this as a standalone example. Its GPIOs overlap sensor reset or power,
-Sensor I2C, soil-moisture ADC or power, WS2812, buzzer, relay and other display
+Run this as a standalone example. Its GPIOs overlap
+soil-moisture ADC or power, WS2812 and other display
 functions. Do not operate those features at the same time.
 
 RD02E does not isolate MCU logic signals when its switched e-paper supply is
