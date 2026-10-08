@@ -53,10 +53,15 @@ The 128-by-250 monochrome e-paper panel with a 122-by-250 drawable area,
 connected through the RD02E e-paper driver board in RadioCore examples.
 _Avoid_: generic 2.13-inch display, Wireless Paper display
 
+**DEPG0290BNS800 e-paper panel**:
+The 128-by-296 monochrome e-paper panel identified by its FPC-7519 rev.b
+connector marking and supported by the matching heltec-eink-modules driver.
+_Avoid_: generic 2.9-inch display, DEPG0290BNS75A, Vision Master display
+
 **RD02E e-paper driver board**:
 The external board that supplies switched power and high-voltage drive circuits
-for compatible e-paper panels, including DEPG1020BNS770F1 and E0213A367, and
-exposes their controller logic interface.
+for compatible e-paper panels, including DEPG1020BNS770F1, E0213A367, and
+DEPG0290BNS800, and exposes their controller logic interface.
 _Avoid_: bare panel, passive adapter, TFT connector
 
 **Full-screen e-paper refresh**:
@@ -67,6 +72,12 @@ _Avoid_: partial refresh, fast refresh, grayscale refresh
 A monochrome update that uses the panel's partial-refresh waveform to update
 an explicitly selected region while preserving the surrounding displayed image.
 _Avoid_: full-screen refresh, automatic change detection, grayscale refresh
+
+**Fast-window e-paper update**:
+A differential fast refresh whose image-RAM writes are restricted to a selected
+window while the surrounding displayed image is preserved; it does not imply
+that the controller drives only the selected gate region.
+_Avoid_: proven local gate scan, full-screen refresh, grayscale refresh
 
 **E-paper reference image**:
 Controller-side image data that provides a baseline for subsequent partial
