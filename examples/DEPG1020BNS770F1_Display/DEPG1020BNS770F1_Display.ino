@@ -16,6 +16,7 @@
 namespace {
 
 constexpr uint16_t kPageHeight = 32;
+constexpr uint32_t kStartupFrameHoldMs = 1000UL;
 constexpr uint32_t kRefreshRestMs = 2000UL;
 constexpr uint8_t kPartialRefreshesBeforeFull = 10;
 // Byte-aligned, entirely inside 960 x 640; keep static content outside it.
@@ -38,6 +39,18 @@ DEPG1020BNS770F1 display(
 uint32_t refreshCount = 0;
 uint8_t partialRefreshCount = 0;
 bool hasBaseline = false;
+
+bool showStartupFrame(uint16_t color)
+{
+  display.fastmodeOff();
+  display.fullscreen();
+  if (!display.timedOut()) {
+    DRAW(display) {
+      display.fillScreen(color);
+    }
+  }
+  return !display.timedOut();
+}
 
 void drawUpdateRegion(uint32_t count)
 {
@@ -66,6 +79,8 @@ void drawTestPage(uint32_t count)
   display.println(F("RadioCore"));
 
   display.setTextSize(2);
+  display.setCursor(656, 56);
+  display.println(F("PARTIAL-WINDOW REFRESH"));
   display.setCursor(40, 112);
   display.print(F("Board: "));
   display.println(F(RADIOCORE_DEPG1020BNS770F1_BOARD_NAME));
@@ -98,6 +113,26 @@ void setup()
   Serial.println();
   Serial.print(F("RadioCore DEPG1020BNS770F1 example: "));
   Serial.println(F(RADIOCORE_DEPG1020BNS770F1_BOARD_NAME));
+
+  display.setFlip(Flip::VERTICAL);
+
+  Serial.println(F("Startup self-test: full-screen black."));
+  if (!showStartupFrame(BLACK)) {
+    Serial.println(F("E-paper BUSY timeout during the black startup frame."));
+    Serial.println(F("Startup self-test aborted; the next cycle will try a normal full refresh."));
+    delay(kRefreshRestMs);
+    return;
+  }
+  delay(kStartupFrameHoldMs);
+
+  Serial.println(F("Startup self-test: full-screen white."));
+  if (!showStartupFrame(WHITE)) {
+    Serial.println(F("E-paper BUSY timeout during the white startup frame."));
+    Serial.println(F("Startup self-test aborted; the next cycle will try a normal full refresh."));
+    delay(kRefreshRestMs);
+    return;
+  }
+  delay(kStartupFrameHoldMs);
 }
 
 void loop()

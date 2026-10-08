@@ -5,7 +5,8 @@
 This example drives a DEPG1020BNS770F1 960-by-640 monochrome e-paper panel
 through an RD02E SSD1677 driver board. It uses 32-row paged drawing, builds a
 full-screen baseline, then updates a small window with the manufacturer's
-partial-refresh waveform. It rests for 2 seconds after each completed refresh
+partial-refresh waveform. At cold startup it first shows full-screen black and
+white test frames. It rests for 2 seconds after each completed normal refresh
 and performs a full-screen refresh after every 10 successful partial updates.
 
 ## Requirements
@@ -50,19 +51,35 @@ before applying power so the board-to-board connector is not inserted mirrored.
 
 ## Behavior and limitations
 
-The first refresh draws the identification page and test geometry over the
-complete 960-by-640 screen. Subsequent partial updates select the byte-aligned
-rectangle `(40, 216, 600, 56)`, clear that rectangle to white, and redraw only the
-refresh counter and an alternating black/white test block. The border, board
-name, and other geometry remain unchanged. Coordinates are absolute screen
-coordinates, not relative to the window.
+At cold startup, the sketch performs one full-screen black refresh and one
+full-screen white refresh, holding each completed frame for 1 second. It then
+draws the identification page and test geometry over the complete 960-by-640
+screen. The startup frames do not increment the displayed refresh counter and
+are not repeated by periodic full refreshes or timeout recovery. If either
+startup frame reaches the 60-second BUSY timeout, the driver board is powered
+down, the remaining startup frame is skipped, and the next loop cycle attempts
+the normal identification page as a full refresh.
 
-Drawing uses a 3,840-byte page buffer (`960 * 32 / 8`), not a 76,800-byte full
-framebuffer. Partial mode runs the `DRAW` body twice through the shared library
-paging loop; the DEPG1020 driver skips hardware writes on the second pass. The
-counter and block state stay constant throughout both passes and advance only
-after a successful refresh. Every 10 partial updates, the sketch explicitly
-restores `fullscreen()` and refreshes the full image before continuing.
+The normal page keeps `RadioCore` at the upper left and displays
+`PARTIAL-WINDOW REFRESH` at the upper right so the top edge is visibly exercised.
+Both labels are static full-refresh content. Subsequent partial updates select
+the byte-aligned rectangle `(40, 216, 600, 56)`, clear that rectangle to white,
+and redraw only the refresh counter and an alternating black/white test block.
+The border, board name, header, and other geometry remain unchanged. Coordinates
+are absolute screen coordinates, not relative to the window.
+
+The sketch selects `Flip::VERTICAL` before the startup test. With the verified
+panel scan direction, this keeps text readable while rotating the physical
+layout by 180 degrees, so the former upper-left content appears at the lower
+right. The same mapping is applied to full-screen and partial-window updates.
+
+All startup and normal drawing uses a 3,840-byte page buffer
+(`960 * 32 / 8`), not a 76,800-byte full framebuffer. Partial mode runs the
+`DRAW` body twice through the shared library paging loop; the DEPG1020 driver
+skips hardware writes on the second pass. The counter and block state stay
+constant throughout both passes and advance only after a successful refresh.
+Every 10 partial updates, the sketch explicitly restores `fullscreen()` and
+refreshes the full image before continuing.
 
 Both full and partial refreshes now keep RD02E powered, with active-low
 `VEINK_Ctrl` held low. Normal completion does not send deep sleep or turn power
